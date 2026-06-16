@@ -28,13 +28,19 @@ h1{text-align:center;color:#fff;font-size:3rem}
 .center{text-align:center}
 .chat-box{
 margin-top:25px;padding:20px;min-height:300px;border-radius:25px;
-background:rgba(255,255,255,.08)
+background:rgba(255,255,255,.08);
+max-height:400px;overflow-y:auto;
 }
-.message{padding:15px 18px;border-radius:20px;background:#fff;color:#222;max-width:85%}
+.message{padding:15px 18px;border-radius:20px;max-width:85%;margin-bottom:12px;word-wrap:break-word;}
+.user-message{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;margin-left:auto;text-align:right;}
+.bot-message{background:rgba(255,255,255,.9);color:#222;}
 .input-group{display:flex;gap:12px;margin-top:20px}
 input,button{height:56px;border:none;border-radius:18px}
 input{flex:1;padding:0 20px;background:rgba(255,255,255,.12);color:#fff}
-button{padding:0 30px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700}
+input::placeholder{color:rgba(255,255,255,.6)}
+button{padding:0 30px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;cursor:pointer;transition:transform .2s}
+button:hover{transform:scale(1.02)}
+button:disabled{opacity:.6;cursor:not-allowed}
 .section-title{text-align:center;color:#fff;margin:35px 0 20px}
 .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
 .card{
@@ -52,6 +58,20 @@ background:rgba(255,255,255,.1)
 .waitlist h3{text-align:center;color:#fff;margin-bottom:20px}
 .waitlist form{display:flex;gap:12px}
 .footer{text-align:center;color:rgba(255,255,255,.85);margin-top:30px}
+.footer a{color:rgba(255,255,255,.9);text-decoration:underline;cursor:pointer;}
+.loading{
+display:inline-block;width:20px;height:20px;
+border:3px solid rgba(255,255,255,.3);
+border-top:3px solid #fff;border-radius:50%;
+animation:spin 1s linear infinite;
+}
+@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360)}}
+.toast{
+position:fixed;bottom:20px;right:20px;background:#333;color:#fff;
+padding:15px 25px;border-radius:12px;display:none;z-index:999;
+}
+.toast.show{display:block;animation:slideIn .5s}
+@keyframes slideIn{from{transform:translateY(100px);opacity:0}to{transform:translateY(0);opacity:1}}
 @media(max-width:650px){
 .container{padding:20px}
 h1{font-size:2.3rem}
@@ -63,46 +83,147 @@ button{width:100%}
 </head>
 <body>
 <div class="container">
-<div class="logo">🤖</div>
-<h1>Bella AI</h1>
-<p class="subtitle">Your friendly AI assistant — FREE for everyone</p>
-<div class="center"><span class="badge">✨ Free Tier Active</span></div>
-<div class="chat-box"><div class="message">👋 Hey there! I'm Bella. Ask me anything!</div></div>
-<div class="input-group">
-<input type="text" placeholder="Type your message...">
-<button>Send</button>
+  <div class="logo">🤖</div>
+  <h1>Bella AI</h1>
+  <p class="subtitle">Your friendly AI assistant — FREE for everyone</p>
+  <div class="center"><span class="badge">✨ Free Tier Active</span></div>
+
+  <div class="chat-box" id="chatBox">
+    <div class="message bot-message">👋 Hey there! I'm Bella. Ask me anything!</div>
+  </div>
+
+  <div class="input-group">
+    <input type="text" id="userInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+    <button id="sendBtn" onclick="sendMessage()">Send</button>
+  </div>
+
+  <h2 class="section-title">🚀 Premium Plans</h2>
+  <div class="pricing-grid">
+    <div class="card">
+      <h3>Free</h3>
+      <div class="price">₹0</div>
+      <ul class="list">
+        <li>✅ 20 messages/day</li>
+        <li>✅ Standard speed</li>
+        <li>✅ Basic support</li>
+      </ul>
+      <span class="tag">Current</span>
+    </div>
+    <div class="card">
+      <h3>Pro</h3>
+      <div class="price">₹99 <span style="font-size:22px">/mo</span></div>
+      <ul class="list">
+        <li>✅ Unlimited messages</li>
+        <li>✅ Faster responses</li>
+        <li>✅ Priority support</li>
+      </ul>
+      <span class="tag blue">Coming Soon</span>
+    </div>
+  </div>
+
+  <div class="waitlist">
+    <h3>📧 Get Early Access to Pro</h3>
+    <form id="waitlistForm">
+      <input type="email" id="waitlistEmail" placeholder="Your email" required>
+      <button type="submit">Join Waitlist</button>
+    </form>
+  </div>
+
+  <div class="footer">
+    Made with ❤️ • Free for everyone • <a onclick="showToast('Premium features coming soon!')">About</a>
+  </div>
 </div>
-<h2 class="section-title">🚀 Premium Plans</h2>
-<div class="pricing-grid">
-<div class="card">
-<h3>Free</h3>
-<div class="price">₹0</div>
-<ul class="list">
-<li>✅ 20 messages/day</li>
-<li>✅ Standard speed</li>
-<li>✅ Basic support</li>
-</ul>
-<span class="tag">Current</span>
-</div>
-<div class="card">
-<h3>Pro</h3>
-<div class="price">₹99 <span style="font-size:22px">/mo</span></div>
-<ul class="list">
-<li>✅ Unlimited messages</li>
-<li>✅ Faster responses</li>
-<li>✅ Priority support</li>
-</ul>
-<span class="tag blue">Coming Soon</span>
-</div>
-</div>
-<div class="waitlist">
-<h3>📧 Get Early Access to Pro</h3>
-<form>
-<input type="email" placeholder="Your email">
-<button>Join Waitlist</button>
-</form>
-</div>
-<div class="footer">Made with ❤️ • Free for everyone • About</div>
-</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ---------- CONFIG ----------
+  // ⚠️ CHANGE THIS TO YOUR ACTUAL SPACE URL
+  const API_URL = "https://shahid0812-Api.hf.space";
+
+  // Generate or retrieve a persistent user ID (for tracking)
+  let userId = localStorage.getItem('bella_user_id');
+  if (!userId) {
+    userId = 'user_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('bella_user_id', userId);
+  }
+
+  // ---------- CHAT ----------
+  const chatBox = document.getElementById('chatBox');
+  const userInput = document.getElementById('userInput');
+  const sendBtn = document.getElementById('sendBtn');
+
+  async function sendMessage() {
+    const msg = userInput.value.trim();
+    if (!msg) return;
+
+    // Add user message
+    chatBox.innerHTML += `<div class="message user-message">${escapeHtml(msg)}</div>`;
+    userInput.value = '';
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = '<span class="loading"></span>';
+
+    // Show typing
+    chatBox.innerHTML += `<div class="message bot-message" id="typing">🤔 Thinking...</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+      const resp = await fetch(`${API_URL}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, user_id: userId })
+      });
+      const data = await resp.json();
+      document.getElementById('typing').remove();
+      chatBox.innerHTML += `<div class="message bot-message">${escapeHtml(data.response)}</div>`;
+    } catch (e) {
+      document.getElementById('typing').remove();
+      chatBox.innerHTML += `<div class="message bot-message">😅 Oops! Something went wrong. Please try again.</div>`;
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Send';
+  }
+
+  // ---------- WAITLIST ----------
+  document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('waitlistEmail').value.trim();
+    if (!email) return;
+
+    try {
+      const resp = await fetch(`${API_URL}/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name: '' })
+      });
+      const data = await resp.json();
+      showToast('✅ ' + data.message);
+      document.getElementById('waitlistEmail').value = '';
+    } catch (e) {
+      showToast('❌ Something went wrong. Please try again.');
+    }
+  });
+
+  // ---------- HELPERS ----------
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  console.log('🎉 Bella AI loaded! User ID:', userId);
+</script>
+</body>
+</html></div>
 </body>
 </html>
