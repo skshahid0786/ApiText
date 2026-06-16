@@ -1,73 +1,366 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Bella AI - Get Your API Key</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bella AI - Free AI Assistant</title>
     <style>
-        body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; }
-        input, select, button { padding: 10px; margin: 5px 0; width: 100%; }
-        .key-box { background: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0; }
-        .success { color: green; }
-        .error { color: red; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .logo { 
+            font-size: 48px; 
+            text-align: center; 
+            margin-bottom: 10px;
+        }
+        h1 { 
+            text-align: center; 
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .chat-box {
+            background: #f7f7f7;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 300px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .user-message {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        .bot-message {
+            background: #e5e7eb;
+            color: #333;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: #667eea;
+        }
+        button {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5a67d8;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .pricing-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .pricing-card.popular {
+            border-color: #667eea;
+            background: #f7f7ff;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .price small {
+            font-size: 14px;
+            font-weight: normal;
+            color: #666;
+        }
+        .feature-list {
+            list-style: none;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .feature-list li {
+            padding: 3px 0;
+        }
+        .coming-soon {
+            text-align: center;
+            color: #10b981;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .waitlist-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .waitlist-form input {
+            flex: 1;
+        }
+        .waitlist-form button {
+            background: #10b981;
+        }
+        .waitlist-form button:hover {
+            background: #059669;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+        }
+        .toast.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <h1>🤖 Bella AI</h1>
-    
-    <div id="signup-form">
-        <h3>Get Your API Key</h3>
-        <input type="email" id="email" placeholder="your@email.com">
-        <select id="plan">
-            <option value="pro">Pro - $9.99/month</option>
-            <option value="business">Business - $99.99/year</option>
-        </select>
-        <button onclick="generateKey()">Get API Key ($9.99)</button>
+    <div class="container">
+        <div class="logo">🤖</div>
+        <h1>Bella AI</h1>
+        <p class="subtitle">Your friendly AI assistant — <strong>FREE</strong> for everyone</p>
+        
+        <div style="text-align: center; margin-bottom: 15px;">
+            <span class="badge">✨ Free Tier Active</span>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="chat-box" id="chatBox">
+            <div class="message bot-message">👋 Hey there! I'm Bella. Ask me anything!</div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="userInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()" id="sendBtn">Send</button>
+        </div>
+
+        <!-- Pricing Section -->
+        <div style="margin-top: 30px; border-top: 2px solid #f0f0f0; padding-top: 20px;">
+            <h3 style="text-align: center; color: #333;">🚀 Coming Soon: Premium Plans</h3>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h4>Free</h4>
+                    <div class="price">₹0</div>
+                    <ul class="feature-list">
+                        <li>✅ 20 messages/day</li>
+                        <li>✅ Standard speed</li>
+                        <li>✅ Basic support</li>
+                    </ul>
+                    <span style="display:inline-block; background:#10b981; color:white; padding:2px 10px; border-radius:10px; font-size:12px;">Current</span>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <h4>Pro</h4>
+                    <div class="price">₹99 <small>/mo</small></div>
+                    <ul class="feature-list">
+                        <li>✅ Unlimited messages</li>
+                        <li>✅ Faster responses</li>
+                        <li>✅ Priority support</li>
+                    </ul>
+                    <span style="display:inline-block; background:#667eea; color:white; padding:2px 10px; border-radius:10px; font-size:12px;">Coming Soon</span>
+                </div>
+            </div>
+
+            <div class="coming-soon">🎯 Premium features launching in 2 weeks!</div>
+        </div>
+
+        <!-- Waitlist Signup -->
+        <div style="margin-top: 20px; background: #f7f7ff; padding: 20px; border-radius: 10px;">
+            <h4 style="text-align: center; color: #333;">📧 Get early access to Pro</h4>
+            <form id="waitlistForm" class="waitlist-form">
+                <input type="email" id="waitlistEmail" placeholder="Your email" required>
+                <button type="submit">Join Waitlist</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            Made with ❤️ • Free for everyone • <a href="#" onclick="showToast('Premium features coming soon!')">About</a>
+        </div>
     </div>
 
-    <div id="result" style="display:none;">
-        <div class="key-box">
-            <h4>Your API Key:</h4>
-            <code id="api-key-display"></code>
-            <p><small>Copy this key and use it in your requests</small></p>
-        </div>
-        <div id="stripe-button"></div>
-    </div>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <script>
-        // Your Hugging Face Space URL
-        const API_URL = "https://your-space.hf.space";
+        const API_URL = "https://shahid0812-Api.hf.space"; // Your Space URL
+        let userId = localStorage.getItem('bella_user_id');
         
-        async function generateKey() {
-            const email = document.getElementById('email').value;
-            const plan = document.getElementById('plan').value;
-            
-            if (!email) {
-                alert('Please enter your email');
-                return;
-            }
+        if (!userId) {
+            userId = 'user_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('bella_user_id', userId);
+        }
+
+        // Send message to Bella
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatBox = document.getElementById('chatBox');
+            const sendBtn = document.getElementById('sendBtn');
+
+            // Add user message
+            chatBox.innerHTML += `<div class="message user-message">${message}</div>`;
+            input.value = '';
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<span class="loading"></span>';
+
+            // Show typing indicator
+            chatBox.innerHTML += `<div class="message bot-message" id="typing">🤔 Thinking...</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                const response = await fetch(`${API_URL}/generate-key`, {
+                const response = await fetch(`${API_URL}/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, plan })
+                    body: JSON.stringify({ 
+                        message: message,
+                        user_id: userId
+                    })
+                });
+
+                const data = await response.json();
+                
+                // Remove typing indicator
+                document.getElementById('typing').remove();
+                
+                // Add bot response
+                chatBox.innerHTML += `<div class="message bot-message">${data.response}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+            } catch (error) {
+                document.getElementById('typing').remove();
+                chatBox.innerHTML += `<div class="message bot-message">😅 Oops! Something went wrong. Please try again.</div>`;
+            }
+
+            sendBtn.disabled = false;
+            sendBtn.textContent = 'Send';
+        }
+
+        // Waitlist signup
+        document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('waitlistEmail').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, name: '' })
                 });
                 
                 const data = await response.json();
-                
-                if (response.ok) {
-                    document.getElementById('api-key-display').textContent = data.api_key;
-                    document.getElementById('result').style.display = 'block';
-                    document.getElementById('signup-form').style.display = 'none';
-                    
-                    // Store key
-                    localStorage.setItem('bella_api_key', data.api_key);
-                } else {
-                    alert('Error: ' + data.detail);
-                }
+                showToast('✅ ' + data.message);
+                document.getElementById('waitlistEmail').value = '';
             } catch (error) {
-                alert('Network error: ' + error.message);
+                showToast('❌ Something went wrong. Please try again.');
             }
+        });
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
+
+        // Auto-join waitlist with random tip
+        console.log('🎉 Welcome to Bella AI!');
+        console.log('💡 Tip: You get 20 free messages daily!');
     </script>
 </body>
 </html>
