@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bella AI - Get Your API Key</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; }
+        input, select, button { padding: 10px; margin: 5px 0; width: 100%; }
+        .key-box { background: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>🤖 Bella AI</h1>
+    
+    <div id="signup-form">
+        <h3>Get Your API Key</h3>
+        <input type="email" id="email" placeholder="your@email.com">
+        <select id="plan">
+            <option value="pro">Pro - $9.99/month</option>
+            <option value="business">Business - $99.99/year</option>
+        </select>
+        <button onclick="generateKey()">Get API Key ($9.99)</button>
+    </div>
+
+    <div id="result" style="display:none;">
+        <div class="key-box">
+            <h4>Your API Key:</h4>
+            <code id="api-key-display"></code>
+            <p><small>Copy this key and use it in your requests</small></p>
+        </div>
+        <div id="stripe-button"></div>
+    </div>
+
+    <script>
+        // Your Hugging Face Space URL
+        const API_URL = "https://your-space.hf.space";
+        
+        async function generateKey() {
+            const email = document.getElementById('email').value;
+            const plan = document.getElementById('plan').value;
+            
+            if (!email) {
+                alert('Please enter your email');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/generate-key`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, plan })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('api-key-display').textContent = data.api_key;
+                    document.getElementById('result').style.display = 'block';
+                    document.getElementById('signup-form').style.display = 'none';
+                    
+                    // Store key
+                    localStorage.setItem('bella_api_key', data.api_key);
+                } else {
+                    alert('Error: ' + data.detail);
+                }
+            } catch (error) {
+                alert('Network error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
