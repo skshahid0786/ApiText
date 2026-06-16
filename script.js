@@ -33,7 +33,7 @@ function updateThemeIcon(theme) {
 }
 
 // ===== TYPEWRITER EFFECT =====
-function typeWriter(element, text, speed = 25) {
+function typeWriter(element, text, speed = 20) {
     return new Promise((resolve) => {
         let index = 0;
         element.textContent = '';
@@ -43,7 +43,6 @@ function typeWriter(element, text, speed = 25) {
 
         function typeChar() {
             if (index < text.length) {
-                // Insert character before cursor
                 cursor.before(document.createTextNode(text.charAt(index)));
                 index++;
                 setTimeout(typeChar, speed);
@@ -67,7 +66,7 @@ async function sendMessage() {
     sendBtn.disabled = true;
     sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
-    // Add placeholder for bot
+    // Create a NEW bot message container
     const botMsgDiv = document.createElement('div');
     botMsgDiv.className = 'message bot-message';
     botMsgDiv.innerHTML = `
@@ -75,6 +74,8 @@ async function sendMessage() {
         <div class="bubble" id="typingBubble"></div>
     `;
     chatBox.appendChild(botMsgDiv);
+    const bubble = botMsgDiv.querySelector('.bubble');
+    bubble.textContent = '🤔 Thinking...';
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
@@ -90,8 +91,7 @@ async function sendMessage() {
             throw new Error(data.detail || 'Something went wrong');
         }
 
-        // Typewriter effect
-        const bubble = document.getElementById('typingBubble');
+        // Typewriter effect on the new bubble
         await typeWriter(bubble, data.response, 20);
 
         // Update remaining display
@@ -100,7 +100,6 @@ async function sendMessage() {
         }
 
     } catch (err) {
-        const bubble = document.getElementById('typingBubble');
         bubble.textContent = '😅 Oops! ' + err.message;
     }
 
