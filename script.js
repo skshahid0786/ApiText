@@ -66,16 +66,17 @@ async function sendMessage() {
     sendBtn.disabled = true;
     sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
-    // Create a NEW bot message container
+    // Create a unique, isolated bot message container for THIS specific message turn
     const botMsgDiv = document.createElement('div');
     botMsgDiv.className = 'message bot-message';
     botMsgDiv.innerHTML = `
         <div class="avatar">🤖</div>
-        <div class="bubble" id="typingBubble"></div>
+        <div class="bubble">🤔 Thinking...</div>
     `;
     chatBox.appendChild(botMsgDiv);
-    const bubble = botMsgDiv.querySelector('.bubble');
-    bubble.textContent = '🤔 Thinking...';
+    
+    // Target the specific bubble inside this newly created div
+    const currentBubble = botMsgDiv.querySelector('.bubble');
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
@@ -91,16 +92,16 @@ async function sendMessage() {
             throw new Error(data.detail || 'Something went wrong');
         }
 
-        // Typewriter effect on the new bubble
-        await typeWriter(bubble, data.response, 20);
+        // Use the typewriter effect directly on this turn's unique bubble
+        await typeWriter(currentBubble, data.response, 20);
 
-        // Update remaining display
-        if (data.remaining !== undefined) {
+        // Update remaining display safely
+        if (data.remaining !== undefined && remainingDisplay) {
             remainingDisplay.innerHTML = `<i class="fas fa-infinity"></i> ${data.remaining} remaining`;
         }
 
     } catch (err) {
-        bubble.textContent = '😅 Oops! ' + err.message;
+        currentBubble.textContent = '😅 Oops! ' + err.message;
     }
 
     sendBtn.disabled = false;
@@ -137,30 +138,32 @@ const waitlistForm = document.getElementById('waitlistForm');
 const waitlistEmail = document.getElementById('waitlistEmail');
 const waitlistMsg = document.getElementById('waitlistMessage');
 
-waitlistForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = waitlistEmail.value.trim();
-    if (!email) return;
+if (waitlistForm) {
+    waitlistForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = waitlistEmail.value.trim();
+        if (!email) return;
 
-    waitlistMsg.textContent = '⏳ Submitting...';
-    waitlistMsg.style.color = 'var(--text-muted)';
+        waitlistMsg.textContent = '⏳ Submitting...';
+        waitlistMsg.style.color = 'var(--text-muted)';
 
-    try {
-        const resp = await fetch(`${API_URL}/signup`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, name: '' })
-        });
-        const data = await resp.json();
-        waitlistMsg.textContent = '✅ ' + data.message;
-        waitlistMsg.style.color = '#10b981';
-        waitlistEmail.value = '';
-        showToast('You\'re on the waitlist! 🎉');
-    } catch (err) {
-        waitlistMsg.textContent = '❌ Something went wrong. Try again.';
-        waitlistMsg.style.color = '#ef4444';
-    }
-});
+        try {
+            const resp = await fetch(`${API_URL}/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, name: '' })
+            });
+            const data = await resp.json();
+            waitlistMsg.textContent = '✅ ' + data.message;
+            waitlistMsg.style.color = '#10b981';
+            waitlistEmail.value = '';
+            showToast('You\'re on the waitlist! 🎉');
+        } catch (err) {
+            waitlistMsg.textContent = '❌ Something went wrong. Try again.';
+            waitlistMsg.style.color = '#ef4444';
+        }
+    });
+}
 
 // ===== FAQ ACCORDION =====
 document.querySelectorAll('.faq-question').forEach(btn => {
@@ -175,12 +178,14 @@ document.querySelectorAll('.faq-question').forEach(btn => {
 // ===== TOAST =====
 function showToast(msg) {
     const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4000);
+    if (toast) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 4000);
+    }
 }
 
 // ===== AUTO-FOCUS =====
-userInput.focus();
+if (userInput) userInput.focus();
 
 console.log('🤖 Bella AI loaded! User:', userId);
