@@ -1,229 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bella AI</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{
-min-height:100vh;display:flex;justify-content:center;align-items:center;
-padding:15px;overflow-x:hidden;
-background:linear-gradient(-45deg,#4f46e5,#7c3aed,#8b5cf6,#6366f1);
-background-size:400% 400%;animation:bgMove 15s ease infinite;
-}
-@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.container{
-width:min(100%,750px);padding:28px;border-radius:35px;
-background:rgba(255,255,255,.12);backdrop-filter:blur(25px);
-border:1px solid rgba(255,255,255,.15);
-box-shadow:0 20px 80px rgba(0,0,0,.25);
-}
-.logo{text-align:center;font-size:70px}
-h1{text-align:center;color:#fff;font-size:3rem}
-.subtitle{text-align:center;color:rgba(255,255,255,.9);margin:10px 0 25px}
-.badge{display:inline-block;background:rgba(16,185,129,.25);padding:10px 20px;border-radius:50px;color:#fff}
-.center{text-align:center}
-.chat-box{
-margin-top:25px;padding:20px;min-height:300px;border-radius:25px;
-background:rgba(255,255,255,.08);
-max-height:400px;overflow-y:auto;
-}
-.message{padding:15px 18px;border-radius:20px;max-width:85%;margin-bottom:12px;word-wrap:break-word;}
-.user-message{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;margin-left:auto;text-align:right;}
-.bot-message{background:rgba(255,255,255,.9);color:#222;}
-.input-group{display:flex;gap:12px;margin-top:20px}
-input,button{height:56px;border:none;border-radius:18px}
-input{flex:1;padding:0 20px;background:rgba(255,255,255,.12);color:#fff}
-input::placeholder{color:rgba(255,255,255,.6)}
-button{padding:0 30px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;cursor:pointer;transition:transform .2s}
-button:hover{transform:scale(1.02)}
-button:disabled{opacity:.6;cursor:not-allowed}
-.section-title{text-align:center;color:#fff;margin:35px 0 20px}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-.card{
-padding:25px;border-radius:25px;color:#fff;
-background:rgba(255,255,255,.1);
-}
-.price{font-size:3rem;font-weight:800;margin:15px 0}
-.list{list-style:none}.list li{padding:7px 0}
-.tag{display:inline-block;margin-top:20px;padding:8px 16px;border-radius:50px;background:#10b981}
-.blue{background:#6366f1}
-.waitlist{
-margin-top:30px;padding:25px;border-radius:25px;
-background:rgba(255,255,255,.1)
-}
-.waitlist h3{text-align:center;color:#fff;margin-bottom:20px}
-.waitlist form{display:flex;gap:12px}
-.footer{text-align:center;color:rgba(255,255,255,.85);margin-top:30px}
-.footer a{color:rgba(255,255,255,.9);text-decoration:underline;cursor:pointer;}
-.loading{
-display:inline-block;width:20px;height:20px;
-border:3px solid rgba(255,255,255,.3);
-border-top:3px solid #fff;border-radius:50%;
-animation:spin 1s linear infinite;
-}
-@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360)}}
-.toast{
-position:fixed;bottom:20px;right:20px;background:#333;color:#fff;
-padding:15px 25px;border-radius:12px;display:none;z-index:999;
-}
-.toast.show{display:block;animation:slideIn .5s}
-@keyframes slideIn{from{transform:translateY(100px);opacity:0}to{transform:translateY(0);opacity:1}}
-@media(max-width:650px){
-.container{padding:20px}
-h1{font-size:2.3rem}
-.logo{font-size:60px}
-.input-group,.waitlist form{flex-direction:column}
-button{width:100%}
-}
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bella AI – Free AI Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="container">
-  <div class="logo">🤖</div>
-  <h1>Bella AI</h1>
-  <p class="subtitle">Your friendly AI assistant — FREE for everyone</p>
-  <div class="center"><span class="badge">✨ Free Tier Active</span></div>
 
-  <div class="chat-box" id="chatBox">
-    <div class="message bot-message">👋 Hey there! I'm Bella. Ask me anything!</div>
-  </div>
+    <!-- ====== NAVBAR ====== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-emoji">🤖</span>
+                <span class="logo-text">Bella AI</span>
+                <span class="badge-free">Free</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="privacy.html"><i class="fas fa-shield-alt"></i> Privacy</a>
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-  <div class="input-group">
-    <input type="text" id="userInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
-    <button id="sendBtn" onclick="sendMessage()">Send</button>
-  </div>
+    <!-- ====== HERO ====== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Chat with <span class="gradient-text">Bella</span></h1>
+                <p class="hero-sub">Your witty, friendly AI assistant — completely free.</p>
+                <div class="stats-row">
+                    <span><i class="fas fa-comment"></i> 20 messages/day</span>
+                    <span><i class="fas fa-bolt"></i> Instant replies</span>
+                    <span><i class="fas fa-shield-alt"></i> Private & secure</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <h2 class="section-title">🚀 Premium Plans</h2>
-  <div class="pricing-grid">
-    <div class="card">
-      <h3>Free</h3>
-      <div class="price">₹0</div>
-      <ul class="list">
-        <li>✅ 20 messages/day</li>
-        <li>✅ Standard speed</li>
-        <li>✅ Basic support</li>
-      </ul>
-      <span class="tag">Current</span>
-    </div>
-    <div class="card">
-      <h3>Pro</h3>
-      <div class="price">₹99 <span style="font-size:22px">/mo</span></div>
-      <ul class="list">
-        <li>✅ Unlimited messages</li>
-        <li>✅ Faster responses</li>
-        <li>✅ Priority support</li>
-      </ul>
-      <span class="tag blue">Coming Soon</span>
-    </div>
-  </div>
+    <!-- ====== CHAT SECTION ====== -->
+    <section class="chat-section">
+        <div class="container">
+            <div class="chat-wrapper">
+                <div class="chat-header">
+                    <span><i class="fas fa-circle" style="color:#10b981;font-size:12px;"></i> Online</span>
+                    <span id="remainingDisplay"><i class="fas fa-infinity"></i> 20 remaining</span>
+                </div>
+                <div class="chat-box" id="chatBox">
+                    <div class="message bot-message">
+                        <div class="avatar">🤖</div>
+                        <div class="bubble">👋 Hey there! I'm Bella. Ask me anything — I'm here to help!</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="userInput" placeholder="Type your message..." autofocus />
+                    <button id="sendBtn"><i class="fas fa-paper-plane"></i> Send</button>
+                </div>
+                <div class="chat-footer">
+                    <small><i class="fas fa-lock"></i> Your IP is used for daily limits.</small>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <div class="waitlist">
-    <h3>📧 Get Early Access to Pro</h3>
-    <form id="waitlistForm">
-      <input type="email" id="waitlistEmail" placeholder="Your email" required>
-      <button type="submit">Join Waitlist</button>
-    </form>
-  </div>
+    <!-- ====== FEATURES ====== -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">✨ Why Bella?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Smart & Witty</h3>
+                    <p>Powered by advanced AI, Bella gives clever, human-like responses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Get answers in milliseconds — no waiting around.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy First</h3>
+                    <p>No data stored. Your conversations are anonymous and secure.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Always Free</h3>
+                    <p>20 messages daily, forever free. Upgrade later for more.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <div class="footer">
-    Made with ❤️ • Free for everyone • <a onclick="showToast('Premium features coming soon!')">About</a>
-  </div>
-</div>
+    <!-- ====== QnA / FAQ ====== -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">❓ Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question"><span>Is Bella really free?</span> <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Yes! Bella is completely free with a limit of 20 messages per day. No credit card required, ever.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>What can I ask Bella?</span> <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Anything! Coding help, writing ideas, general knowledge, jokes, life advice — Bella is your friendly companion.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>When will Pro launch?</span> <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>We're working hard on Pro features — unlimited messages, faster responses, and custom AI training. Join the waitlist to get early access!</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>How is my privacy protected?</span> <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>We only track your IP for daily limits. We never store your messages or personal data. Read our full <a href="privacy.html">Privacy Policy</a>.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- Toast notification -->
-<div class="toast" id="toast"></div>
+    <!-- ====== FUTURE PLANS (Roadmap) ====== -->
+    <section class="roadmap">
+        <div class="container">
+            <h2 class="section-title">🚀 Future Plans</h2>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item done">
+                    <div class="roadmap-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="roadmap-content">
+                        <h3>Free Beta Launch</h3>
+                        <p>20 messages/day, beautiful UI, IP-based limits.</p>
+                        <span class="roadmap-status done">✅ Done</span>
+                    </div>
+                </div>
+                <div class="roadmap-item doing">
+                    <div class="roadmap-icon"><i class="fas fa-spinner fa-spin"></i></div>
+                    <div class="roadmap-content">
+                        <h3>Pro Plan (Coming Soon)</h3>
+                        <p>Unlimited messages, faster responses, priority support.</p>
+                        <span class="roadmap-status doing">🔄 In Progress</span>
+                    </div>
+                </div>
+                <div class="roadmap-item todo">
+                    <div class="roadmap-icon"><i class="fas fa-clock"></i></div>
+                    <div class="roadmap-content">
+                        <h3>Business Tier</h3>
+                        <p>Custom AI training, dedicated API, team collaboration.</p>
+                        <span class="roadmap-status todo">⏳ Planned</span>
+                    </div>
+                </div>
+                <div class="roadmap-item todo">
+                    <div class="roadmap-icon"><i class="fas fa-clock"></i></div>
+                    <div class="roadmap-content">
+                        <h3>Mobile Apps</h3>
+                        <p>iOS and Android apps for Bella AI.</p>
+                        <span class="roadmap-status todo">⏳ Planned</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<script>
-  // ---------- CONFIG ----------
-  // ⚠️ CHANGE THIS TO YOUR ACTUAL SPACE URL
-  const API_URL = "https://shahid0812-Api.hf.space"; 
-  
-  // Generate or retrieve a persistent user ID (for tracking)
-  let userId = localStorage.getItem('bella_user_id');
-  if (!userId) {
-    userId = 'user_' + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('bella_user_id', userId);
-  }
+    <!-- ====== WAITLIST ====== -->
+    <section class="waitlist-section">
+        <div class="container">
+            <div class="waitlist-card">
+                <h2>📧 Get Early Access to Pro</h2>
+                <p>Be the first to know when Pro launches — get 50% off as an early adopter.</p>
+                <form id="waitlistForm" class="waitlist-form">
+                    <input type="email" id="waitlistEmail" placeholder="Your email address" required />
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Join Waitlist</button>
+                </form>
+                <div id="waitlistMessage" class="waitlist-message"></div>
+            </div>
+        </div>
+    </section>
 
-  // ---------- CHAT ----------
-  const chatBox = document.getElementById('chatBox');
-  const userInput = document.getElementById('userInput');
-  const sendBtn = document.getElementById('sendBtn');
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>🤖 Bella AI</h4>
+                    <p>Your friendly AI assistant, free for everyone.</p>
+                </div>
+                <div>
+                    <h4>Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="privacy.html">Privacy</a>
+                </div>
+                <div>
+                    <h4>Connect</h4>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bella AI. Made with ❤️ in India.</p>
+            </div>
+        </div>
+    </footer>
 
-  async function sendMessage() {
-    const msg = userInput.value.trim();
-    if (!msg) return;
+    <!-- ====== TOAST ====== -->
+    <div class="toast" id="toast"></div>
 
-    // Add user message
-    chatBox.innerHTML += `<div class="message user-message">${escapeHtml(msg)}</div>`;
-    userInput.value = '';
-    sendBtn.disabled = true;
-    sendBtn.innerHTML = '<span class="loading"></span>';
-
-    // Show typing
-    chatBox.innerHTML += `<div class="message bot-message" id="typing">🤔 Thinking...</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    try {
-      const resp = await fetch(`${API_URL}/chat`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: msg, user_id: userId })
-  });
-      const data = await resp.json();
-      document.getElementById('typing').remove();
-      chatBox.innerHTML += `<div class="message bot-message">${escapeHtml(data.response)}</div>`;
-    } catch (e) {
-      document.getElementById('typing').remove();
-      chatBox.innerHTML += `<div class="message bot-message">😅 Oops! Something went wrong. Please try again.</div>`;
-    }
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-    sendBtn.disabled = false;
-    sendBtn.textContent = 'Send';
-  }
-
-  // ---------- WAITLIST ----------
-  document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const email = document.getElementById('waitlistEmail').value.trim();
-    if (!email) return;
-
-    try {
-      const resp = await fetch(`${API_URL}/signup`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, name: '' })
-  });
-      const data = await resp.json();
-      showToast('✅ ' + data.message);
-      document.getElementById('waitlistEmail').value = '';
-    } catch (e) {
-      showToast('❌ Something went wrong. Please try again.');
-    }
-  });
-
-  // ---------- HELPERS ----------
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 4000);
-  }
-
-  console.log('🎉 Bella AI loaded! User ID:', userId);
-</script>
+    <!-- ====== SCRIPTS ====== -->
+    <script src="script.js"></script>
 </body>
-</html></div>
-</body>
-</html>
+                  </html>
