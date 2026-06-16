@@ -140,8 +140,8 @@ button{width:100%}
 <script>
   // ---------- CONFIG ----------
   // ⚠️ CHANGE THIS TO YOUR ACTUAL SPACE URL
-  const API_URL = "https://shahid0812-Api.hf.space";
-
+  const API_URL = "https://shahid0812-Api.hf.space"; 
+  
   // Generate or retrieve a persistent user ID (for tracking)
   let userId = localStorage.getItem('bella_user_id');
   if (!userId) {
@@ -170,10 +170,10 @@ button{width:100%}
 
     try {
       const resp = await fetch(`${API_URL}/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg, user_id: userId })
-      });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: msg, user_id: userId })
+  });
       const data = await resp.json();
       document.getElementById('typing').remove();
       chatBox.innerHTML += `<div class="message bot-message">${escapeHtml(data.response)}</div>`;
@@ -195,10 +195,10 @@ button{width:100%}
 
     try {
       const resp = await fetch(`${API_URL}/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name: '' })
-      });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, name: '' })
+  });
       const data = await resp.json();
       showToast('✅ ' + data.message);
       document.getElementById('waitlistEmail').value = '';
